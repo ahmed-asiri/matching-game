@@ -4,7 +4,7 @@ var previousCard;
 var currentCard;
 let score = 0;
 let timerID;
-
+let timer;
 
 function shuffleArr(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
@@ -93,14 +93,20 @@ function createCardsListener() {
 function changeScore() {
     score++;
     document.querySelector("#score").innerHTML = score;
-    if(score == 8)
+    if(score == 8){
         clearInterval(timerID);
+        Swal.fire({
+            icon: 'success',
+            title: 'Congratulations',
+            text: 'You WON the game in ' + timer
+          })
+    }
 }
 
 
 function checker(previous, current) {
     setTimeout(function() {
-        if(previous.firstChild.className === current.firstChild.className){    
+        if (previous.firstChild.className === current.firstChild.className){    
             previous.classList.remove("selected");
             previous.classList.add("correct");
             current.classList.remove("selected");
@@ -125,7 +131,7 @@ function checker(previous, current) {
 }
 
 
-function timer() {
+function timerSetting() {
     let min = 0;
     let sec = 0;
     timerID = setInterval(function(){
@@ -134,7 +140,7 @@ function timer() {
             min++;
             sec = 0;
         }
-        let timer = concatenateTimer(min, sec);
+        timer = concatenateTimer(min, sec);
         document.querySelector("#timer").innerHTML = `${timer}`
     }, 1000);
 }
@@ -162,7 +168,7 @@ function startGame() {
     resetEvent();
     addIcons();
     createCardsListener();
-    timer();
+    timerSetting();
 }
 
 startGame();
