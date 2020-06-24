@@ -118,7 +118,8 @@ function changeScore() {
         Swal.fire({
             icon: 'success',
             title: 'Congratulations',
-            text: 'You WON the game in ' + timer
+            text: 'You WON the game in ' + timer,
+            footer: '<p style="text-align: center"> Prepared for: <br>Dr. Morshed [CPIT-405]'
           })
     }
 }
