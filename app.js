@@ -1,10 +1,10 @@
-
 var counter = 0; 
 var previousCard;
 var currentCard;
 let score = 0;
 let timerID;
 let timer;
+
 
 function shuffleArr(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
@@ -27,11 +27,20 @@ function shuffleArr(array) {
 
 
 function resetEvent() {
-    document.querySelector(".reset-container").addEventListener("click", resetGame);
+    var btns = document.querySelector(".btns-container");
+    btns.classList.remove("play-btn");
+    btns.classList.add("reset-btn");
+    btns.addEventListener("click", resetGame);
+    btns.firstElementChild.innerHTML = "Reset";
+    btns.lastElementChild.classList.remove("fa-play")
+    btns.lastElementChild.classList.add("fa-redo")
+
 }
 
 
 function resetGame() {
+    LoadPage();
+
     clearInterval(timerID);
     let cards = document.querySelectorAll(".card");
     counter = 0;
@@ -39,11 +48,16 @@ function resetGame() {
         card.classList.remove("selected");
         card.classList.remove("correct");
         card.classList.remove("wrong");
-        card.classList.add("hidden");
+        card.classList.remove("hidden");
     }
     score = 0;
+    document.querySelector("#score").innerHTML = score;
     document.querySelector("#timer").innerHTML = "00:00";
-    startGame();
+    let cardContainer = document.querySelector(".card-container");
+    cardContainer.removeEventListener("click", cradsMatchingAction);
+    var btns = document.querySelector(".btns-container");
+    btns.removeEventListener("click", resetGame);
+
 }
 
 
@@ -67,26 +81,32 @@ function addIcons() {
 
 function createCardsListener() {
     let cardContainer = document.querySelector(".card-container");
-    cardContainer.addEventListener("click", function(eve) {
-        if(eve.target.nodeName === "I"){
-            let card = eve.target.parentNode;
-            if(!card.classList.contains("correct") && !card.classList.contains("selected")){
-                    card.classList.remove("hidden");
-                    card.classList.add("selected");
-                if(counter === 0){
-                    previousCard = card;
-                    counter++;
-                } else if(counter === 1){
-                    currentCard = card;
-                     if(currentCard.id != previousCard.id){
-                        checker(previousCard, currentCard);
-                        counter = 0;
-                        return;
-                }
-                }
-            }   
-        }
-    });
+    for (const card of cardContainer.children) {
+        card.classList.add("hidden");
+    }
+    cardContainer.addEventListener("click",  cradsMatchingAction);
+}
+
+
+function cradsMatchingAction(eve) {
+    if(eve.target.nodeName === "I"){
+        let card = eve.target.parentNode;
+        if(!card.classList.contains("correct") && !card.classList.contains("selected")){
+                card.classList.remove("hidden");
+                card.classList.add("selected");
+            if(counter === 0){
+                previousCard = card;
+                counter++;
+            } else if(counter === 1){
+                currentCard = card;
+                 if(currentCard.id != previousCard.id){
+                    checker(previousCard, currentCard);
+                    counter = 0;
+                    return;
+            }
+            }
+        }   
+    }
 }
 
 
@@ -127,7 +147,6 @@ function checker(previous, current) {
         }
     }, 200);
     previousCard, currentCard = undefined;
-
 }
 
 
@@ -161,15 +180,27 @@ function concatenateTimer(min, sec){
     return timer;
 }
 
+
 function startGame() {
     currentCard = undefined;
     previousCard = undefined;
-    document.querySelector("#score").innerHTML = 0;
+    document.querySelector(".btns-container").removeEventListener("click", startGame);
     resetEvent();
-    addIcons();
     createCardsListener();
     timerSetting();
 }
 
-startGame();
 
+function LoadPage() {
+    addIcons();
+    let btns = document.querySelector(".btns-container");
+    btns.classList.remove("reset-btn");
+    btns.classList.add("play-btn");
+    btns.firstElementChild.innerHTML = "Play";
+    btns.lastElementChild.classList.remove("fa-redo")
+    btns.lastElementChild.classList.add("fa-play")
+    btns.addEventListener("click", startGame);
+}
+
+
+LoadPage();

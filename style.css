@@ -110,13 +110,14 @@ h1 {
     -webkit-transition: all 0.4s ease;
     transition: all 0.4s ease;
     color: #fffff1;
-    cursor: pointer;
+    background-color: #FFA600;
+
 }
 
 
 .hidden {
-    background-color: #FFA600;
     color: transparent;
+    cursor: pointer;
     -webkit-transform: rotateY(180deg);
     transform: rotateY(180deg);
 }
@@ -162,7 +163,7 @@ h1 {
 }
 
 
-.reset-container {
+.btns-container {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -178,7 +179,6 @@ h1 {
     -webkit-box-direction: normal;
     -ms-flex-direction: row;
     flex-direction: row;
-    background-color: #27ae60;
     width: 40%;
     margin: auto;
     color: #fff;
@@ -189,19 +189,33 @@ h1 {
     transition: all 0.2s ease;
 }
 
+.btns-container:hover {
+    box-shadow: 3px 3px 5px 2px rgba(85, 85, 85, 0.233);
+}
 
-.reset-container:hover {
+.play-btn {
+    background-color: #27ae60;
+}
+
+.reset-btn {
+    background-color: #e74c3c;
+}
+
+.play-btn:hover {
     background-color: #269e58;
 }
 
+.reset-btn:hover {
+    background-color: #ce4333;
+}
 
-.reset, .reset-container i {
+.reset, .btns-container i {
     display: inline-block;
     font-size: 120%;
 }
 
 
-.reset-container i {
+.btns-container i {
     margin-left: 15px;
 }
 
